@@ -25,3 +25,16 @@ int main() {
     cout << "Nilai Minimum nya adalah " << minimum << " dan berada di index " << index << endl;
     cout << endl;
 }
+
+/*
+Kompleksitass findmin :
+jumlah iterasi loop = n - 1
+
+best case :
+Tmin(n) = n -1 
+Big O = O(n)
+
+worst case :
+Tmax(n) = 2(n - 1)
+Big O = O(n)
+*/
