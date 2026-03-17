@@ -12,7 +12,7 @@ void reverseArray(int* arr, int n) {
 
         awal++;
         akhir--;
-    } 
+    }
 }
 
 void tampilarray(int* arr, int n) {
