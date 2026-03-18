@@ -77,12 +77,14 @@ void Linear(string key) {
             cout << "Jenis: " << (p+i)->jenis << endl;
             cout << "Harga: " << (p+i)->harga << endl;
             ketemu = true;
+            pause();
         }
     }
-    pause();
 
-    if(!ketemu) cout << "Hewan Tidak ditemukan\n";
+    if(!ketemu){
+    cout << "Hewan Tidak ditemukan\n";
     pause();
+    }
 }
 
 int Fibonnaci(int x) {
@@ -188,7 +190,7 @@ int main() {
 
         case 3:{
             string nama;
-            cout << "Masukkan nama: ";
+            cout << "\nMasukkan nama: ";
             cin.ignore();
             getline (cin,nama);
             Linear(nama);
@@ -205,8 +207,10 @@ int main() {
                 cout << "Ditemukan: " << dataHewan[hasil].nama << endl; 
                 pause();
             }
-            else
-                cout << "Tidak ditemukan\n";
+            else {
+                cout << "\nTidak ditemukan\n";
+                pause();
+            }
         }
         break;
 
