@@ -56,7 +56,6 @@ void tambah() {
     cout << "\nMasukkan data hewan baru:\n";
     cout << "ID: "; cin >> dataHewan[jumlah].id;
     cin.ignore();
-    // cout << "Nama: "; cin >> dataHewan[jumlah].nama;
     cout << "Nama: "; getline(cin,dataHewan[jumlah].nama);
     cout << "Jenis: "; cin >> dataHewan[jumlah].jenis;
     cout << "Harga: "; cin >> dataHewan[jumlah].harga;
@@ -81,6 +80,14 @@ void Linear(string key) {
         }
     }
 
+    // proses iterasi Linear Search
+    // 1. index dimulai dari 0
+    // 2. ambil data menggunakanm pointer (p+i)
+    // 3. bandingkan nama dengan key 
+    // 4. jika cocok maka tampilkan data
+    // 5. jika tidak cocok maka lanjut ke index selanjut nya
+    // 6. ulangi sampai semua data di cek
+    
     if(!ketemu){
     cout << "Hewan Tidak ditemukan\n";
     pause();
@@ -102,8 +109,6 @@ int Fibonnaci(int x) {
 
     while (fibM > 1) {
         int i = min(offset + fibMMm2, jumlah - 1);
-
-        cout << "Cek index: " << i << endl;
 
         if (dataHewan[i].id < x) {
             fibM = fibMMm1;
@@ -204,7 +209,10 @@ int main() {
             cout << endl;
             int hasil = Fibonnaci(id);
             if(hasil != -1){
-                cout << "Ditemukan: " << dataHewan[hasil].nama << endl; 
+                cout << "Ditemukan!" << endl; 
+                cout << "Nama: " <<dataHewan[hasil].nama << endl; 
+                cout << "Jenis: " << dataHewan[hasil].jenis << endl;
+                cout << "Harga: " <<  dataHewan[hasil].harga << endl;
                 pause();
             }
             else {
