@@ -78,7 +78,7 @@ void geserQ(antrian *arr, int &rear) {
 
 void enqueue(int id, string nama, string keperluan) {
     if(isFull()) {
-        cout << "Antrian penuh!\n";
+        cout << "\nAntrian penuh!\n";
         return;
     }
 
@@ -86,16 +86,16 @@ void enqueue(int id, string nama, string keperluan) {
     QPasien[rear].id = id;
     QPasien[rear].nama = nama;
     QPasien[rear].keperluan = keperluan;
-    cout << "Pasien dengan ID " << id << " dan nama " << nama << " berhasil masuk antrian.\n";
+    cout << "\nPasien dengan ID " << id << " dan nama " << nama << " berhasil masuk antrian.\n";
 }
 
 void dequeue() {
     if(isEmpty()) {
-        cout << "Antrian kosong!\n";
+        cout << "\nAntrian kosong!\n";
         return;
     }
 
-    cout << "Memanggil pasien:\n";
+    cout << "\nMemanggil pasien:\n";
     cout << "ID: " << QPasien[front].id << endl;
     cout << "Nama: " << QPasien[front].nama << endl;
 
@@ -106,20 +106,23 @@ void dequeue() {
 
 void peekAntrian() {
     if(isEmpty()) {
-        cout << "Antrian kosong!\n";
+        cout << "\nAntrian kosong!\n";
         return;
     }
+    cout << "\n=================================\n";
     cout << "Pasien Selanjutnya: \n";
     cout << "ID: " << QPasien[front].id << endl;
     cout << "Nama: " << QPasien[front].nama << endl;
+    cout << "keperluan: " << QPasien[front].keperluan << endl;
 }
 
 void peekRiwayat() {
     if(isRiwayatEmpty()) {
-        cout << "Riwayat kosong!\n";
+        cout << "\nRiwayat kosong!\n";
         return;
     }
-    cout << "\nRiwayat Pasien Terakhir:\n";
+    cout << "\n=================================\n";
+    cout << "Riwayat Pasien Terakhir:\n";
     cout << "ID: " << RiwayatPasien[top].id << endl;
     cout << "Nama: " << RiwayatPasien[top].nama << endl;
     cout << "keperluan: " << RiwayatPasien[top].keperluan << endl;
@@ -127,17 +130,18 @@ void peekRiwayat() {
 
 void pop() {
     if(top == -1) {
-        cout << "riwayat Kosong\n";
+        cout << "\nriwayat Kosong\n";
         return;
     }
-    cout << "Menghapus riwayat pasien:\n";
-    cout << RiwayatPasien[top].nama << endl;
+    cout << "\nMenghapus riwayat pasien:\n";
+    cout << "ID: " << RiwayatPasien[top].id << endl;
+    cout << "Nama: " << RiwayatPasien[top].nama << endl;
     top--;
 }
 
 void push(int id, string nama, string keperluan) {
     if(isRiwayatFull()) {
-        cout << "Riwayat penuh! Tidak dapat menyimpan riwayat pasien.\n";
+        cout << "\nRiwayat penuh! Tidak dapat menyimpan riwayat pasien.\n";
         return;
     }
     top++;
@@ -148,12 +152,13 @@ void push(int id, string nama, string keperluan) {
 
 void tampilAntrian(antrian *arr,int f, int r) {
     if(isEmpty()) {
-        cout << "Antrian kosong!\n";
+        cout << "\nAntrian kosong!\n";
         return;
     }
 
     cout << "\n=== Antrian Pasien ===\n";
     for(int i = front; i <= r; i++) {
+        cout << endl;
         cout << "ID: " << (arr+i)->id << endl;
         cout << "Nama: " << (arr+i)->nama << endl;
         cout << "keperluan: " << (arr+i)->keperluan << endl;
@@ -164,12 +169,13 @@ void tampilAntrian(antrian *arr,int f, int r) {
 
 void tampilRiwayat(riwayat *arr, int t) {
     if(top == -1) {
-        cout << "Riwayat kosong!\n";
+        cout << "\nRiwayat kosong!\n";
         return;
     }
 
     cout << "\n=== Riwayat Pasien ===\n";
     for(int i = 0; i <= top; i++) {
+        cout << endl;
         cout << "ID: " << (arr+i)->id << endl;
         cout << "Nama: " << (arr+i)->nama << endl;
         cout << "keperluan: " << (arr+i)->keperluan << endl;
@@ -325,7 +331,7 @@ int main() {
         cout << "6. Sort Harga Hewan (Selection)\n";
         cout << "7. Enqueue Antrian Pasien\n";
         cout << "8. Dequeue Antrian Pasien\n";
-        cout << "9. Hapus Riwayat Pasien (pop)\n";
+        cout << "9. Hapus Riwayat Pasien Terakhir\n";
         cout << "10.Tampil Antrian Pasien\n";
         cout << "11.Tampil Riwayat Pasien\n";
         cout << "0. Keluar\n";
