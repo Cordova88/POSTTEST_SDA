@@ -136,6 +136,7 @@ void pop() {
     cout << "\nMenghapus riwayat pasien:\n";
     cout << "ID: " << RiwayatPasien[top].id << endl;
     cout << "Nama: " << RiwayatPasien[top].nama << endl;
+    cout << "keperluan: " << RiwayatPasien[top].keperluan << endl;
     top--;
 }
 
