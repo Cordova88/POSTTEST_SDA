@@ -10,49 +10,23 @@ struct Hewan {
     float harga;
 };
 
-struct antrian{
+struct Node{
     int id;
     string nama;
     string keperluan;
+    Node *next;
 };
 
-struct riwayat{
-    int id;
-    string nama;
-    string keperluan;
-};
-
-const int MAXQUEUE = 25;
-antrian QPasien[MAXQUEUE];
-int front = 0;
-int rear = -1;
-riwayat RiwayatPasien[MAXQUEUE];
-int top = -1;
-
-bool isFull() {
-    return rear == MAXQUEUE - 1;
-}
-
-bool isEmpty() {
-    return front > rear;
-}
-
-bool isRiwayatFull() {
-    return top >= MAXQUEUE - 1;
-}
-
-bool isRiwayatEmpty() {
-    return top < 0;
-}
-
-void push(int id, string nama, string keperluan);
+Node *front = NULL;
+Node *rear = NULL;
+Node *top = NULL;
 
 const int MAX = 100;
 Hewan dataHewan[MAX];
 int jumlah = 0;
 
 void pause() {
-    cout << "\nTekan Enter tombol untuk melanjutkan...";
+    cout << "\nTekan Enter untuk melanjutkan...";
     getche();
     cout << endl;
 }
@@ -69,119 +43,137 @@ void swapRef(Hewan &a, Hewan &b) {
     b = temp;
 }
 
-void geserQ(antrian *arr, int &rear) {
-    for(int i = 0; i < rear; i++) {
-        *(arr + i) = *(arr + i + 1);
-    }
-    rear--;
-}
-
 void enqueue(int id, string nama, string keperluan) {
-    if(isFull()) {
-        cout << "\nAntrian penuh!\n";
-        return;
+    Node *baru = new Node;
+    baru->id = id;
+    baru->nama = nama;
+    baru->keperluan = keperluan;
+    baru->next = NULL;
+
+    if(front == NULL){
+        front = rear = baru;
+    }else{
+        rear->next = baru;
+        rear = baru;
     }
 
-    rear++;
-    QPasien[rear].id = id;
-    QPasien[rear].nama = nama;
-    QPasien[rear].keperluan = keperluan;
     cout << "\nPasien dengan ID " << id << " dan nama " << nama << " berhasil masuk antrian.\n";
 }
 
-void dequeue() {
-    if(isEmpty()) {
-        cout << "\nAntrian kosong!\n";
-        return;
-    }
-
-    cout << "\nMemanggil pasien:\n";
-    cout << "ID: " << QPasien[front].id << endl;
-    cout << "Nama: " << QPasien[front].nama << endl;
-
-    push(QPasien[front].id, QPasien[front].nama, QPasien[front].keperluan);
-
-    geserQ(QPasien, rear);
+void push(int id, string nama, string keperluan){
+    Node *baru = new Node;
+    baru->id = id;
+    baru->nama = nama;
+    baru->keperluan = keperluan;
+    baru->next = top;
+    top = baru;
 }
 
+void dequeue(){
+    if(front == NULL){
+        cout << "\nAntrian kosong\n";
+        return;
+    }
+
+    Node *hapus = front;
+
+    cout << "\nMemanggil Pasien\n";
+    cout << "ID: " << hapus->id << endl;
+    cout << "Nama: " << hapus->nama << endl;
+    cout << "Keperluan: " << hapus->keperluan << endl;
+
+    push(hapus->id, hapus->nama, hapus->keperluan);
+
+    front = front->next;
+
+    if(front == NULL)
+        rear = NULL;
+
+    delete hapus;
+}
 void peekAntrian() {
-    if(isEmpty()) {
+    if(front == NULL) {
         cout << "\nAntrian kosong!\n";
         return;
     }
+
     cout << "\n=================================\n";
     cout << "Pasien Selanjutnya: \n";
-    cout << "ID: " << QPasien[front].id << endl;
-    cout << "Nama: " << QPasien[front].nama << endl;
-    cout << "keperluan: " << QPasien[front].keperluan << endl;
+    cout << "ID: " << front->id << endl;
+    cout << "Nama: " << front->nama << endl;
+    cout << "keperluan: " << front->keperluan << endl;
 }
 
 void peekRiwayat() {
-    if(isRiwayatEmpty()) {
+    if(top == NULL) {
         cout << "\nRiwayat kosong!\n";
         return;
     }
+
     cout << "\n=================================\n";
     cout << "Riwayat Pasien Terakhir:\n";
-    cout << "ID: " << RiwayatPasien[top].id << endl;
-    cout << "Nama: " << RiwayatPasien[top].nama << endl;
-    cout << "keperluan: " << RiwayatPasien[top].keperluan << endl;
+    cout << "ID: " << top->id << endl;
+    cout << "Nama: " << top->nama << endl;
+    cout << "keperluan: " << top->keperluan << endl;
 }
 
-void pop() {
-    if(top == -1) {
-        cout << "\nriwayat Kosong\n";
+void pop(){
+    if(top == NULL){
+        cout << "\nRiwayat kosong\n";
         return;
     }
-    cout << "\nMenghapus riwayat pasien:\n";
-    cout << "ID: " << RiwayatPasien[top].id << endl;
-    cout << "Nama: " << RiwayatPasien[top].nama << endl;
-    cout << "keperluan: " << RiwayatPasien[top].keperluan << endl;
-    top--;
+
+    Node *hapus = top;
+
+    cout << "\nMenghapus Riwayat\n";
+    cout << "ID: " << hapus->id << endl;
+    cout << "Nama: " << hapus->nama << endl;
+    cout << "Keperluan: " << hapus->keperluan << endl;
+
+    top = top->next;
+    delete hapus;
 }
 
-void push(int id, string nama, string keperluan) {
-    if(isRiwayatFull()) {
-        cout << "\nRiwayat penuh! Tidak dapat menyimpan riwayat pasien.\n";
-        return;
-    }
-    top++;
-    RiwayatPasien[top].id = id;
-    RiwayatPasien[top].nama = nama;
-    RiwayatPasien[top].keperluan = keperluan;
-}
 
-void tampilAntrian(antrian *arr,int f, int r) {
-    if(isEmpty()) {
+void tampilAntrian(Node *p) {
+    if(p == NULL) {
         cout << "\nAntrian kosong!\n";
         return;
     }
 
     cout << "\n=== Antrian Pasien ===\n";
-    for(int i = front; i <= r; i++) {
+
+    while(p != NULL) {
         cout << endl;
-        cout << "ID: " << (arr+i)->id << endl;
-        cout << "Nama: " << (arr+i)->nama << endl;
-        cout << "keperluan: " << (arr+i)->keperluan << endl;
+        cout << "ID: " << p->id << endl;
+        cout << "Nama: " << p->nama << endl;
+        cout << "keperluan: " << p->keperluan << endl;
         cout << "-------------------------\n";
+
+        p = p->next;
     }
+
     peekAntrian();
 }
 
-void tampilRiwayat(riwayat *arr, int t) {
-    if(top == -1) {
+void tampilRiwayat(Node *p) {
+    if(p == NULL) {
         cout << "\nRiwayat kosong!\n";
         return;
     }
 
     cout << "\n=== Riwayat Pasien ===\n";
-    for(int i = 0; i <= top; i++) {
+
+    while(p != NULL) {
         cout << endl;
-        cout << "ID: " << (arr+i)->id << endl;
-        cout << "Nama: " << (arr+i)->nama << endl;
-        cout << "keperluan: " << (arr+i)->keperluan << endl;
+        cout << "ID: " << p->id << endl;
+        cout << "Nama: " << p->nama << endl;
+        cout << "keperluan: " << p->keperluan << endl;
         cout << "-------------------------\n";
+
+        p = p->next;
     }
+
     peekRiwayat();
 }
 
@@ -200,9 +192,9 @@ void tampil(Hewan *arr, int n) {
             << setw(15) << left << (arr+i)->nama << " | "
             << setw(15) << left << (arr+i)->jenis << " | "
             << setw(10) << left << (arr+i)->harga << " | " << endl;
-        }
-        cout << "============================================================\n";
-        pause();
+    }
+    cout << "============================================================\n";
+    pause();
 }
 
 void tambah() {
@@ -333,22 +325,20 @@ int main() {
         cout << "7. Enqueue Antrian Pasien\n";
         cout << "8. Dequeue Antrian Pasien\n";
         cout << "9. Hapus Riwayat Pasien Terakhir\n";
-        cout << "10.Tampil Antrian Pasien\n";
-        cout << "11.Tampil Riwayat Pasien\n";
+        cout << "10. Tampil Antrian Pasien\n";
+        cout << "11. Tampil Riwayat Pasien\n";
         cout << "0. Keluar\n";
         cout << "Pilih: ";
         cin >> pilih;
 
-        switch (pilih)
-        {
-        case 1:{
+        switch(pilih){
+
+        case 1:
             tambah();
-        }
         break;
 
-        case 2:{
+        case 2:
             tampil(dataHewan, jumlah);
-        }
         break;
 
         case 3:{
@@ -392,42 +382,37 @@ int main() {
 
         case 7:{
             int id;
-            string nama;
-            string keperluan;
-            cout << "\nMasukkan ID Pasien: ";
+            string nama, keperluan;
+            cout << "ID: ";
             cin >> id;
             cin.ignore();
-            cout << "Masukkan Nama Pasien: ";
-            getline(cin, nama);
-            cout << "Masukkan Keperluan: ";
-            getline(cin, keperluan);
-            enqueue(id, nama, keperluan);
+            cout << "Nama: ";
+            getline(cin,nama);
+            cout << "Keperluan: ";
+            getline(cin,keperluan);
+            enqueue(id,nama,keperluan);
             pause();
         }
         break;
 
-        case 8:{
+        case 8:
             dequeue();
             pause();
-        }
         break;
 
-        case 9:{
+        case 9:
             pop();
             pause();
-        }
         break;
 
-        case 10:{
-            tampilAntrian(QPasien, front, rear);
+        case 10:
+            tampilAntrian(front);
             pause();
-        }
         break;
 
-        case 11:{
-            tampilRiwayat(RiwayatPasien, top);
+        case 11:
+            tampilRiwayat(top);
             pause();
-        }
         break;
 
         case 0:
@@ -439,9 +424,6 @@ int main() {
         pause();
         break;
         }
-
-    } while(pilih != 0);
+    }while(pilih!=0);
     cout << "\nTerima kasih, Datang Kembali!\n";
-
-    return 0;
 }
